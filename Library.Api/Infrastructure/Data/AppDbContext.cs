@@ -1,0 +1,18 @@
+using Library.Api.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace Library.Api.Infrastructure.Data;
+
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    public DbSet<Book> Books => Set<Book>();
+    public DbSet<Member> Members => Set<Member>();
+    public DbSet<Borrowing> Borrowings => Set<Borrowing>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+    }
+}
