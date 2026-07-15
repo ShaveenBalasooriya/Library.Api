@@ -9,7 +9,6 @@ obj/
 *.user
 
 # Secrets / local config
-appsettings.Development.json
 appsettings.*.local.json
 secrets.json
 *.env
