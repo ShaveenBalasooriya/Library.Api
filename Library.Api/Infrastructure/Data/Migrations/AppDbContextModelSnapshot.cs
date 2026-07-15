@@ -55,6 +55,38 @@ namespace Library.Api.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Author = "Robert C. Martin",
+                            AvailableCopies = 3,
+                            Isbn = "978-0132350884",
+                            PublishedYear = 2008,
+                            Title = "Clean Code",
+                            TotalCopies = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Author = "Andrew Hunt",
+                            AvailableCopies = 2,
+                            Isbn = "978-0201616224",
+                            PublishedYear = 1999,
+                            Title = "The Pragmatic Programmer",
+                            TotalCopies = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Author = "Eric Evans",
+                            AvailableCopies = 0,
+                            Isbn = "978-0321125217",
+                            PublishedYear = 2003,
+                            Title = "Domain-Driven Design",
+                            TotalCopies = 1
+                        });
                 });
 
             modelBuilder.Entity("Library.Api.Domain.Entities.Borrowing", b =>
@@ -88,6 +120,17 @@ namespace Library.Api.Infrastructure.Data.Migrations
                     b.HasIndex("MemberId");
 
                     b.ToTable("Borrowings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
+                            BookId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            BorrowedDate = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DueDate = new DateTime(2026, 7, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MemberId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("Library.Api.Domain.Entities.Member", b =>
@@ -119,6 +162,25 @@ namespace Library.Api.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Members");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            Email = "alice@example.com",
+                            FullName = "Alice Johnson",
+                            IsActive = true,
+                            PhoneNumber = "0771234567",
+                            RegisteredDate = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Email = "bob@example.com",
+                            FullName = "Bob Smith",
+                            IsActive = true,
+                            RegisteredDate = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("Library.Api.Domain.Entities.Borrowing", b =>
