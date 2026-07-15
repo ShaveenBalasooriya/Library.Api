@@ -13,27 +13,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Book>(entity =>
-        {
-            entity.HasIndex(b => b.Isbn).IsUnique();
-        });
-
-        modelBuilder.Entity<Member>(entity =>
-        {
-            entity.HasIndex(m => m.Email).IsUnique();
-        });
-
-        modelBuilder.Entity<Borrowing>(entity =>
-        {
-            entity.HasOne<Book>()
-                  .WithMany()
-                  .HasForeignKey(br => br.BookId)
-                  .OnDelete(DeleteBehavior.Restrict);
-
-            entity.HasOne<Member>()
-                  .WithMany()
-                  .HasForeignKey(br => br.MemberId)
-                  .OnDelete(DeleteBehavior.Restrict);
-        });
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }
