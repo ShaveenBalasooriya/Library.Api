@@ -1,9 +1,0 @@
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\Library.Api.csproj.AssemblyReference.cache
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\rpswa.dswa.cache.json
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\Library.Api.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\Library.Api.AssemblyInfoInputs.cache
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\Library.Api.AssemblyInfo.cs
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\Library.Api.csproj.CoreCompileInputs.cache
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\Library.Api.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\Library.Api.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\ShaveenBalasooriya\repos\Library.Api\Library.Api.CleanArch\src\Library.Api\obj\Debug\net10.0\Library.Api.sourcelink.json
