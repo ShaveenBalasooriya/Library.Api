@@ -1,2 +1,26 @@
+# Build results
 /src/*/bin/
 /src/*/obj/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+
+# Secrets / local config
+appsettings.*.local.json
+secrets.json
+*.env
+.env
+
+# Logs
+*.log
+logs/
+
+# Docker
+docker-compose.override.yml
+
+# OS files
+.DS_Store
+Thumbs.db
