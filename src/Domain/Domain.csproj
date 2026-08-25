@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <Folder Include="ValueObjects\" />
   </ItemGroup>
 </Project>
