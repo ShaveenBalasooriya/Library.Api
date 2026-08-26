@@ -4,6 +4,9 @@ public abstract class Entity : IEquatable<Entity>
 {
     public Guid Id { get; private init; }
 
+    // EF Core could use this, keep this and see.
+    // protected Entity() => Id = Guid.CreateVersion7();
+
     protected Entity(Guid id) => Id = id;
 
     public override bool Equals(object? obj) =>

@@ -1,0 +1,31 @@
+using System.Net.Mail;
+using Domain.Primitives;
+using Domain.Shared;
+
+namespace Domain.ValueObjects;
+
+public sealed class Email : ValueObject
+{
+    public string Value { get; }
+    private Email(string value) => Value = value;
+
+    public Result<Email> Create(string emailValue)
+    {
+        if (string.IsNullOrWhiteSpace(emailValue))
+        {
+            return Result<Email>.Failure(new Error("Email.Empty", "Email address cannot be empty."));
+        }
+
+        if (!MailAddress.TryCreate(emailValue, out var mailAddress) || mailAddress.Address != emailValue)
+        {
+            return Result<Email>.Failure(new Error("Email.InvalidFormat", "Email address format is invalid."));
+        }
+
+        return Result<Email>.Success(new Email(emailValue));
+    }
+
+    protected override IEnumerable<object> GetAtomicValues()
+    {
+        yield return Value;
+    }
+}

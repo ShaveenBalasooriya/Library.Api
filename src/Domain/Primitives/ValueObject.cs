@@ -13,8 +13,8 @@ public abstract class ValueObject : IEquatable<ValueObject>
     public override int GetHashCode() =>
         GetAtomicValues().Aggregate(
             default(int),
-            (hashcode, value) => 
-                HashCode.Combine(hashcode, value.GetHashCode));
+            (hashCode, value) => 
+                HashCode.Combine(hashCode, value.GetHashCode));
 
     public static bool operator ==(ValueObject left, ValueObject right) =>
         left is null ? right is null : left.Equals(right);
