@@ -21,19 +21,12 @@ namespace Domain.Entities
             Copies = copies;
         }
 
-        public static Result<Book> Create(string title, string author, Isbn isbn, PublishedYear publishedYear, int totalCopies)
+        public static Result<Book> Create(string title, string author, Isbn isbn, PublishedYear publishedYear, BookCopies copies)
         {
             if (string.IsNullOrWhiteSpace(title)) return Result<Book>.Failure(new Error("Book.TitleEmpty", "Title is empty."));
             if (string.IsNullOrWhiteSpace(author)) return Result<Book>.Failure(new Error("Book.AuthorEmpty", "Author is empty."));
 
-            var copiesResults = BookCopies.Create(totalCopies);
-
-            if (copiesResults.IsFailure)
-            {
-                return Result<Book>.Failure(copiesResults.Error);
-            }
-
-            return Result<Book>.Success(new Book(Guid.CreateVersion7(), title, author, isbn, publishedYear, copiesResults.Value));
+            return Result<Book>.Success(new Book(Guid.CreateVersion7(), title, author, isbn, publishedYear, copies));
         }
 
         public Result Update(string title, string author, Isbn isbn, PublishedYear publishedYear, int totalCopies)
