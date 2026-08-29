@@ -1,6 +1,6 @@
 namespace Library.Api.Endpoints.Books;
 
-public sealed record UpdateBookRequest(
+public sealed record BookRequestDto(
     string Title,
     string Author,
     string Isbn,

@@ -23,10 +23,17 @@ public sealed class BookEndpoints : ICarterModule
     }
 
     private static async Task<IResult> AddBook(
-        AddBookCommand command,
+        BookRequestDto request,
         ISender sender,
         CancellationToken cancellationToken)
     {
+        var command = new AddBookCommand(
+            request.Title,
+            request.Author,
+            request.Isbn,
+            request.PublishedYear,
+            request.TotalCopies);
+
         var result = await sender.Send(command, cancellationToken);
 
         return result.IsSuccess
@@ -61,7 +68,7 @@ public sealed class BookEndpoints : ICarterModule
 
     private static async Task<IResult> UpdateBook(
         Guid id,
-        UpdateBookRequest request,
+        BookRequestDto request,
         ISender sender,
         CancellationToken cancellationToken)
     {
