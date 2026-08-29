@@ -1,5 +1,7 @@
 using Application.Abstractions.Data;
+using Application.Books;
 using Infrastructure.Persistence;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,8 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("Database")));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<LibraryDbContext>());
+
+        services.AddScoped<IBookRepository, BookRepository>();
 
         return services;
     }

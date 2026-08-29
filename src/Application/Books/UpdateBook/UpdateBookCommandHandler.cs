@@ -51,6 +51,7 @@ namespace Application.Books
                 return Result.Failure(updateResult.Error);
             }
 
+            _bookRepository.Update(book);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
