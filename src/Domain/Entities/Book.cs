@@ -13,6 +13,15 @@ namespace Domain.Entities
         public PublishedYear PublishedYear { get; private set; }
         public BookCopies Copies { get; private set; }
 
+        private Book() : base(Guid.Empty)
+        {
+            Title = null!;
+            Author = null!;
+            Isbn = null!;
+            PublishedYear = null!;
+            Copies = null!;
+        }
+
         private Book(Guid id, string title, string author, Isbn isbn, PublishedYear publishedYear, BookCopies copies) : base(id)
         {
             Title = title;

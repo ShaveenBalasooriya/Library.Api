@@ -15,7 +15,6 @@ WORKDIR /src
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
 COPY ["src/Library.Api/Library.Api.csproj", "src/Library.Api/"]
-COPY ["src/Presentation/Presentation.csproj", "src/Presentation/"]
 COPY ["src/Infrastructure/Infrastructure.csproj", "src/Infrastructure/"]
 COPY ["src/Application/Application.csproj", "src/Application/"]
 COPY ["src/Domain/Domain.csproj", "src/Domain/"]

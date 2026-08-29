@@ -9,8 +9,8 @@ public sealed class LibraryDbContext : DbContext, IUnitOfWork
     public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options) { }
 
     public DbSet<Book> Books => Set<Book>();
-    public DbSet<Member> Members => Set<Member>();
-    public DbSet<Borrowing> Borrowings => Set<Borrowing>();
+    // public DbSet<Member> Members => Set<Member>();
+    // public DbSet<Borrowing> Borrowings => Set<Borrowing>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -19,8 +19,6 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
                 .HasMaxLength(13);
         });
 
-        builder.HasIndex(b => b.Isbn.Value).IsUnique();
-
         builder.ComplexProperty(b => b.PublishedYear, publishedYearBuilder =>
         {
             publishedYearBuilder.Property(p => p.Value)
