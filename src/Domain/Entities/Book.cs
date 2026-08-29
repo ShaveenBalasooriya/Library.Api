@@ -1,4 +1,5 @@
-﻿using Domain.Primitives;
+﻿using Domain.Enums;
+using Domain.Primitives;
 using Domain.Shared;
 using Domain.ValueObjects;
 
@@ -23,16 +24,16 @@ namespace Domain.Entities
 
         public static Result<Book> Create(string title, string author, Isbn isbn, PublishedYear publishedYear, BookCopies copies)
         {
-            if (string.IsNullOrWhiteSpace(title)) return Result<Book>.Failure(new Error("Book.TitleEmpty", "Title is empty."));
-            if (string.IsNullOrWhiteSpace(author)) return Result<Book>.Failure(new Error("Book.AuthorEmpty", "Author is empty."));
+            if (string.IsNullOrWhiteSpace(title)) return Result<Book>.Failure(new Error("Book.TitleEmpty", "Title is empty.", ErrorType.Validation));
+            if (string.IsNullOrWhiteSpace(author)) return Result<Book>.Failure(new Error("Book.AuthorEmpty", "Author is empty.", ErrorType.Validation));
 
             return Result<Book>.Success(new Book(Guid.CreateVersion7(), title, author, isbn, publishedYear, copies));
         }
 
         public Result Update(string title, string author, Isbn isbn, PublishedYear publishedYear, int totalCopies)
         {
-            if (string.IsNullOrWhiteSpace(title)) return Result.Failure(new Error("Book.TitleEmpty", "Title is empty."));
-            if (string.IsNullOrWhiteSpace(author)) return Result.Failure(new Error("Book.AuthorEmpty", "Author is empty."));
+            if (string.IsNullOrWhiteSpace(title)) return Result.Failure(new Error("Book.TitleEmpty", "Title is empty.", ErrorType.Validation));
+            if (string.IsNullOrWhiteSpace(author)) return Result.Failure(new Error("Book.AuthorEmpty", "Author is empty.", ErrorType.Validation));
 
             var updatedCopiesResult = Copies.UpdateTotal(totalCopies);
 

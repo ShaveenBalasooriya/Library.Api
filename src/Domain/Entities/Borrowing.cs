@@ -25,9 +25,9 @@ public sealed class Borrowing : Entity
 
     public static Result<Borrowing> Create(Guid bookId, Guid memberId)
     {
-        if (bookId == Guid.Empty) return Result<Borrowing>.Failure(new Error("Borrowing.BookIdRequired", "The book identifier is required."));
+        if (bookId == Guid.Empty) return Result<Borrowing>.Failure(new Error("Borrowing.BookIdRequired", "The book identifier is required.", ErrorType.Validation));
 
-        if (memberId == Guid.Empty) return Result<Borrowing>.Failure(new Error("Borrowing.MemberIdRequired", "The member identifier is required."));
+        if (memberId == Guid.Empty) return Result<Borrowing>.Failure(new Error("Borrowing.MemberIdRequired", "The member identifier is required.", ErrorType.Validation));
 
         DateTime borrowedDate = DateTime.UtcNow;
         DateTime dueDate = borrowedDate.AddDays(14);
@@ -38,7 +38,7 @@ public sealed class Borrowing : Entity
 
     public Result ReturnBook()
     {
-        if (Status == BorrowingStatus.Returned) return Result.Failure(new Error("Borrowing.AlreadyReturned", "The book has already been returned."));
+        if (Status == BorrowingStatus.Returned) return Result.Failure(new Error("Borrowing.AlreadyReturned", "The book has already been returned.", ErrorType.Conflict));
 
         ReturnedDate = DateTime.Now;
         Status = BorrowingStatus.Returned;

@@ -1,5 +1,6 @@
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
+using Domain.Enums;
 using Domain.Shared;
 using Domain.ValueObjects;
 
@@ -21,7 +22,7 @@ namespace Application.Books
             var book = await _bookRepository.GetByIdAsync(request.Id, cancellationToken);
             if (book is null)
             {
-                return Result.Failure(new Error("Book.NotFound", $"Book with ID '{request.Id}' was not found."));
+                return Result.Failure(new Error("Book.NotFound", $"Book with ID '{request.Id}' was not found.", ErrorType.NotFound));
             }
 
             var isbnResult = Isbn.Create(request.Isbn);
@@ -41,7 +42,7 @@ namespace Application.Books
                 bool isUnique = await _bookRepository.IsIsbnUniqueAsync(isbnResult.Value, cancellationToken);
                 if (!isUnique)
                 {
-                    return Result.Failure(new Error("Book.DuplicateIsbn", $"A book with ISBN '{request.Isbn}' already exists."));
+                    return Result.Failure(new Error("Book.DuplicateIsbn", $"A book with ISBN '{request.Isbn}' already exists.", ErrorType.Conflict));
                 }
             }
 

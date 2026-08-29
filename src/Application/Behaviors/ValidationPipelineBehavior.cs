@@ -1,4 +1,5 @@
-﻿using Domain.Shared;
+﻿using Domain.Enums;
+using Domain.Shared;
 using FluentValidation;
 using MediatR;
 
@@ -30,7 +31,8 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
             .Where(validationFailure => validationFailure is not null)
             .Select(failure => new Error(
                 failure.PropertyName,
-                failure.ErrorMessage))
+                failure.ErrorMessage,
+                ErrorType.Validation))
             .Distinct()
             .ToArray();
 
@@ -56,6 +58,6 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
             .GetMethod(nameof(ValidationResult.WithErrors))!
             .Invoke(null, new object[] { errors })!;
 
-        return (TResult) validationResult;
+        return (TResult)validationResult;
     }
 }

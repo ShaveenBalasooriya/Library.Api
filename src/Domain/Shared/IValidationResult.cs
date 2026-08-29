@@ -1,3 +1,5 @@
+using Domain.Enums;
+
 namespace Domain.Shared;
 
 public interface IValidationResult
@@ -6,5 +8,6 @@ public interface IValidationResult
 
     public static readonly Error ValidationError = new(
         "ValidationError",
-        "One or more validation errors occurred");
+        "One or more validation errors occurred",
+        ErrorType.Validation);
 }

@@ -1,3 +1,4 @@
+using Domain.Enums;
 using Domain.Primitives;
 using Domain.Shared;
 
@@ -13,12 +14,12 @@ public sealed class PhoneNumber : ValueObject
     {
         if (string.IsNullOrWhiteSpace(phoneNumber))
         {
-            return Result<PhoneNumber>.Failure(new Error("PhoneNumber.Empty", "Phone number cannot be empty."));
+            return Result<PhoneNumber>.Failure(new Error("PhoneNumber.Empty", "Phone number cannot be empty.", ErrorType.Validation));
         }
 
         if (phoneNumber.Length != 10)
         {
-            return Result<PhoneNumber>.Failure(new Error("PhoneNumber.InvalidLength", "Phone number must be exactly 10 characters long."));
+            return Result<PhoneNumber>.Failure(new Error("PhoneNumber.InvalidLength", "Phone number must be exactly 10 characters long.", ErrorType.Validation));
         }
 
         return Result<PhoneNumber>.Success(new PhoneNumber(phoneNumber));

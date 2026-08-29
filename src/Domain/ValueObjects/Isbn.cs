@@ -1,5 +1,6 @@
 using Domain.Shared;
 using Domain.Primitives;
+using Domain.Enums;
 
 namespace Domain.ValueObjects;
 
@@ -13,12 +14,12 @@ public sealed class Isbn : ValueObject
     {
         if (string.IsNullOrWhiteSpace(isbnValue))
         {
-            return Result<Isbn>.Failure(new Error("Isbn.Empty", "ISBN cannot be empty"));
+            return Result<Isbn>.Failure(new Error("Isbn.Empty", "ISBN cannot be empty", ErrorType.Validation));
         }
 
         if (isbnValue.Length != 10 && isbnValue.Length != 13)
         {
-            return Result<Isbn>.Failure(new Error("Isbn.Invalid", "ISBN must be 10 or 13 characters long."));
+            return Result<Isbn>.Failure(new Error("Isbn.Invalid", "ISBN must be 10 or 13 characters long.", ErrorType.Validation));
         }
 
         return Result<Isbn>.Success(new Isbn(isbnValue));

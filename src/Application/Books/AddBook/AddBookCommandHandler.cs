@@ -1,6 +1,7 @@
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Shared;
 using Domain.ValueObjects;
 
@@ -40,7 +41,7 @@ namespace Application.Books
             bool isUnique = await _bookRepository.IsIsbnUniqueAsync(isbnResult.Value, cancellationToken);
             if (!isUnique)
             {
-                return Result<Guid>.Failure(new Error("Book.DuplicateIsbn", $"A book with ISBN '{request.Isbn}' already exists."));
+                return Result<Guid>.Failure(new Error("Book.DuplicateIsbn", $"A book with ISBN '{request.Isbn}' already exists.", ErrorType.Conflict));
             }
 
             var bookResult = Book.Create(request.Title, request.Author, isbnResult.Value, publishedYearResult.Value, copiesResult.Value);

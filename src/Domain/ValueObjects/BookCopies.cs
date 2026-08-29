@@ -1,3 +1,4 @@
+using Domain.Enums;
 using Domain.Primitives;
 using Domain.Shared;
 
@@ -20,7 +21,7 @@ public sealed class BookCopies : ValueObject
     {
         if (total <= 0)
         {
-            return Result<BookCopies>.Failure(new Error("BookCopies.TotalInvalid", "Total copies must be greater than zero."));
+            return Result<BookCopies>.Failure(new Error("BookCopies.TotalInvalid", "Total copies must be greater than zero.", ErrorType.Validation));
         }
 
         return Result<BookCopies>.Success(new BookCopies(total, total));
@@ -29,12 +30,12 @@ public sealed class BookCopies : ValueObject
     {
         if (total <= 0)
         {
-            return Result<BookCopies>.Failure(new Error("BookCopies.TotalInvalid", "Total copies must be greater than zero."));
+            return Result<BookCopies>.Failure(new Error("BookCopies.TotalInvalid", "Total copies must be greater than zero.", ErrorType.Validation));
         }
 
         if (available < 0 || available > total)
         {
-            return Result<BookCopies>.Failure(new Error("BookCopies.AvailableInvalid", "Available copies cannot exceed total copies or be negative."));
+            return Result<BookCopies>.Failure(new Error("BookCopies.AvailableInvalid", "Available copies cannot exceed total copies or be negative.", ErrorType.Conflict));
         }
 
         return Result<BookCopies>.Success(new BookCopies(total, available));
@@ -44,7 +45,7 @@ public sealed class BookCopies : ValueObject
     {
         if (Available <= 0)
         {
-            return Result<BookCopies>.Failure(new Error("BookCopies.NoAvailableCopies", "No copies are currently available to borrow."));
+            return Result<BookCopies>.Failure(new Error("BookCopies.NoAvailableCopies", "No copies are currently available to borrow.", ErrorType.Conflict));
         }
 
         return Result<BookCopies>.Success(new BookCopies(Total, Available - 1));
@@ -54,7 +55,7 @@ public sealed class BookCopies : ValueObject
     {
         if (Available >= Total)
         {
-            return Result<BookCopies>.Failure(new Error("BookCopies.AllCopiesReturned", "All copies are already accounted for in inventory."));
+            return Result<BookCopies>.Failure(new Error("BookCopies.AllCopiesReturned", "All copies are already accounted for in inventory.", ErrorType.Conflict));
         }
 
         return Result<BookCopies>.Success(new BookCopies(Total, Available + 1));
@@ -64,12 +65,12 @@ public sealed class BookCopies : ValueObject
     {
         if (newTotal <= 0)
         {
-            return Result<BookCopies>.Failure(new Error("BookCopies.TotalInvalid", "Total copies cannot be negative."));
+            return Result<BookCopies>.Failure(new Error("BookCopies.TotalInvalid", "Total copies cannot be negative.", ErrorType.Validation));
         }
 
         if (newTotal < Borrowed)
         {
-            return Result<BookCopies>.Failure(new Error("BookCopies.ReduceBelowBorrowed", "Cannot reduce total copies below currently borrowed count."));
+            return Result<BookCopies>.Failure(new Error("BookCopies.ReduceBelowBorrowed", "Cannot reduce total copies below currently borrowed count.", ErrorType.Conflict));
         }
         return Result<BookCopies>.Success(new BookCopies(newTotal, newTotal - Borrowed));
     }

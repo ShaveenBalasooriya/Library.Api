@@ -1,4 +1,5 @@
 using Application.Abstractions.Messaging;
+using Domain.Enums;
 using Domain.Shared;
 
 namespace Application.Books
@@ -17,7 +18,7 @@ namespace Application.Books
             var book = await _bookRepository.GetByIdAsync(request.Id, cancellationToken);
             if (book is null)
             {
-                return Result<BookResponse>.Failure(new Error("Book.NotFound", $"Book with ID '{request.Id}' was not found."));
+                return Result<BookResponse>.Failure(new Error("Book.NotFound", $"Book with ID '{request.Id}' was not found.", ErrorType.NotFound));
             }
 
             var response = new BookResponse(

@@ -1,5 +1,6 @@
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
+using Domain.Enums;
 using Domain.Shared;
 
 namespace Application.Books
@@ -20,12 +21,12 @@ namespace Application.Books
             var book = await _bookRepository.GetByIdAsync(request.Id, cancellationToken);
             if (book is null)
             {
-                return Result.Failure(new Error("Book.NotFound", $"Book with ID '{request.Id}' was not found."));
+                return Result.Failure(new Error("Book.NotFound", $"Book with ID '{request.Id}' was not found.", ErrorType.NotFound));
             }
 
             if (book.Copies.Borrowed > 0)
             {
-                return Result.Failure(new Error("Book.HasActiveBorrowings", "Cannot delete a book with copies currently borrowed."));
+                return Result.Failure(new Error("Book.HasActiveBorrowings", "Cannot delete a book with copies currently borrowed.", ErrorType.Conflict));
             }
 
             _bookRepository.Remove(book);

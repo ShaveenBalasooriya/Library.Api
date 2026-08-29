@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Domain.Enums;
 using Domain.Primitives;
 using Domain.Shared;
 using Domain.ValueObjects;
@@ -23,16 +24,16 @@ public sealed class Member : Entity
 
     public static Result<Member> Create(string fullName, Email email, PhoneNumber? phoneNumber)
     {
-        if (string.IsNullOrWhiteSpace(fullName)) return Result<Member>.Failure(new Error("Member.FullNameRequired", "Full name is required."));
+        if (string.IsNullOrWhiteSpace(fullName)) return Result<Member>.Failure(new Error("Member.FullNameRequired", "Full name is required.", ErrorType.Validation));
 
-        if (email is null) return Result<Member>.Failure(new Error("Member.EmailRequired", "Email is required."));
+        if (email is null) return Result<Member>.Failure(new Error("Member.EmailRequired", "Email is required.", ErrorType.Validation));
 
         return Result<Member>.Success(new Member(Guid.CreateVersion7(), fullName, email, phoneNumber));
     }
 
     public Result Update(string fullName, PhoneNumber? phoneNumber)
     {
-        if (fullName is null) return Result.Failure(new Error("Member.FullNameRequired", "Full name is required."));
+        if (fullName is null) return Result.Failure(new Error("Member.FullNameRequired", "Full name is required.", ErrorType.Validation));
 
         FullName = fullName;
         PhoneNumber = phoneNumber;

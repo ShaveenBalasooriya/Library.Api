@@ -1,3 +1,4 @@
+using Domain.Enums;
 using Domain.Primitives;
 using Domain.Shared;
 
@@ -13,12 +14,12 @@ public sealed class PublishedYear : ValueObject
     {
         if (yearValue <= 0)
         {
-            return Result<PublishedYear>.Failure(new Error("PublishedYear.Negative", "Published year must be greater than zero."));
+            return Result<PublishedYear>.Failure(new Error("PublishedYear.Negative", "Published year must be greater than zero.", ErrorType.Validation));
         }
 
         if (yearValue > DateTime.UtcNow.Year)
         {
-            return Result<PublishedYear>.Failure(new Error("PublishedYear.InFuture", "Published year cannot be in the future."));
+            return Result<PublishedYear>.Failure(new Error("PublishedYear.InFuture", "Published year cannot be in the future.", ErrorType.Validation));
         }
 
         return Result<PublishedYear>.Success(new PublishedYear(yearValue));
