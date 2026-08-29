@@ -14,6 +14,10 @@ public static class ResultExtensions
             throw new InvalidOperationException("Cannot convert a successful result to Problem Details.");
         }
 
+        var errors = result is IValidationResult validationResult
+            ? validationResult.Errors
+            : [result.Error];
+
         return Problem(
             statusCode: result.Error.ErrorType switch
             {
@@ -28,7 +32,7 @@ public static class ResultExtensions
             detail: result.Error.Message,
             extensions: new Dictionary<string, object?>
             {
-                {"errors", new[] {result.Error} }
+                { "errors", errors }
             });
     }
 }
