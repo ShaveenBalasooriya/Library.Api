@@ -1,5 +1,6 @@
 using Application.Abstractions.Data;
 using Application.Books;
+using Application.Members;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<LibraryDbContext>());
 
         services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IMemberRepository, MemberRepository>();
 
         return services;
     }
