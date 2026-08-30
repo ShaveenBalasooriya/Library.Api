@@ -10,7 +10,7 @@ public sealed class LibraryDbContext : DbContext, IUnitOfWork
 
     public DbSet<Book> Books => Set<Book>();
     public DbSet<Member> Members => Set<Member>();
-    // public DbSet<Borrowing> Borrowings => Set<Borrowing>();
+    public DbSet<Borrowing> Borrowings => Set<Borrowing>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

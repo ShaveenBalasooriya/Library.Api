@@ -1,5 +1,6 @@
 using Application.Abstractions.Data;
 using Application.Books;
+using Application.Borrowings;
 using Application.Members;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
@@ -20,6 +21,7 @@ public static class DependencyInjection
 
         services.AddScoped<IBookRepository, BookRepository>();
         services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<IBorrowingRepository, BorrowingRepository>();
 
         return services;
     }
