@@ -6,11 +6,11 @@ namespace Domain.ValueObjects;
 
 public sealed class PhoneNumber : ValueObject
 {
-    public string Value { get; }
+    public string Value { get; init; }
 
     private PhoneNumber(string value) => Value = value;
 
-    public Result<PhoneNumber> Create(string? phoneNumber)
+    public static Result<PhoneNumber> Create(string? phoneNumber)
     {
         if (string.IsNullOrWhiteSpace(phoneNumber))
         {

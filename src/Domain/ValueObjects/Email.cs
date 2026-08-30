@@ -7,10 +7,10 @@ namespace Domain.ValueObjects;
 
 public sealed class Email : ValueObject
 {
-    public string Value { get; }
+    public string Value { get; init; }
     private Email(string value) => Value = value;
 
-    public Result<Email> Create(string emailValue)
+    public static Result<Email> Create(string emailValue)
     {
         if (string.IsNullOrWhiteSpace(emailValue))
         {

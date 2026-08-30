@@ -11,3 +11,5 @@
 - So apparently the domain layer shouldn't know or call the system time directly. And instead it should be provided a time provider interface, like TimeProvider. The domain should get the time as a plain value.
 
 - Domain Purity is something cool to look into. Domain Purity Vs. Domain Completeness.
+
+- From a UX perspective, should we let the Frontend team, also need to get all of the details about a Book or Member, then send all of those details back to the backend just to make an update? We are basically creating a new object again just for the update. Plus we already have the validations in place to check for the required value in the pipeline and the domain, so should we make it this hard for the Frontend team to make a simple update? Changes the Updates commands to be PUT Partial.
