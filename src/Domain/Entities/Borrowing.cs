@@ -15,6 +15,11 @@ public sealed class Borrowing : Entity
     public DateTime? ReturnedDate { get; private set; }
     public BorrowingStatus Status { get; private set; }
 
+    private Borrowing() : base(Guid.Empty)
+    {
+
+    }
+
     private Borrowing(Guid id, Guid bookId, Guid memberId, DateTime borrowedDate, DateTime dueDate) : base(id)
     {
         BookId = bookId;
@@ -51,7 +56,7 @@ public sealed class Borrowing : Entity
     {
         if (Status == BorrowingStatus.Returned) return Result.Failure(new Error("Borrowing.AlreadyReturned", "The book has already been returned.", ErrorType.Conflict));
 
-        ReturnedDate = DateTime.Now;
+        ReturnedDate = DateTime.UtcNow;
         Status = BorrowingStatus.Returned;
 
         return Result.Success();

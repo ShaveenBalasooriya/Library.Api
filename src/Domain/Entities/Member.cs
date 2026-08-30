@@ -13,6 +13,12 @@ public sealed class Member : Entity
     public PhoneNumber? PhoneNumber { get; private set; }
     public DateTime RegisteredDate { get; init; }
     public bool IsActive { get; private set; }
+
+    private Member() : base(Guid.Empty)
+    {
+        FullName = null!;
+        Email = null!;
+    }
     private Member(Guid id, string fullName, Email email, PhoneNumber? phoneNumber) : base(id)
     {
         FullName = fullName;

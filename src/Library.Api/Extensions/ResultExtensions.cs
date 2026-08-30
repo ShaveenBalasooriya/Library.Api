@@ -14,9 +14,10 @@ public static class ResultExtensions
             throw new InvalidOperationException("Cannot convert a successful result to Problem Details.");
         }
 
-        var errors = result is IValidationResult validationResult
+        var errors = (result is IValidationResult validationResult
             ? validationResult.Errors
-            : [result.Error];
+            : [result.Error])
+            .Select(error => new { code = error.Code, message = error.Message });
 
         return Problem(
             statusCode: result.Error.ErrorType switch
