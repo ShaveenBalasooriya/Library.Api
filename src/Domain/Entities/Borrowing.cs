@@ -6,6 +6,7 @@ namespace Domain.Entities;
 
 public sealed class Borrowing : Entity
 {
+    public const int MaxActiveBorrowingsPerMember = 3;
     // Gang so time (system time) is something infrastructure related AND is non-deterministic, so we shouldn't be having anything time related here ✋🏽😭  
     public Guid BookId { get; private set; }
     public Guid MemberId { get; private set; }
@@ -34,6 +35,16 @@ public sealed class Borrowing : Entity
 
         return Result<Borrowing>.Success(new Borrowing(Guid.CreateVersion7(), bookId, memberId, borrowedDate, dueDate));
 
+    }
+
+    public static Result EnsureMemberCanBorrow(int activeBorrowingsCount)
+    {
+        if (activeBorrowingsCount >= MaxActiveBorrowingsPerMember)
+        {
+            return Result.Failure(new Error("Borrowing.MaxActiveBorrowingsReached", $"Member has reached the maximum of {MaxActiveBorrowingsPerMember} active borrowings.", ErrorType.Conflict));
+        }
+
+        return Result.Success();
     }
 
     public Result ReturnBook()
