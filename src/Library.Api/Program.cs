@@ -44,6 +44,8 @@ app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
 
+app.MapDefaultEndpoints();
+
 app.MapCarter();
 
 app.Run();

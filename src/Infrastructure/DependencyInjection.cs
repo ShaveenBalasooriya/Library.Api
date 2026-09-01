@@ -23,6 +23,9 @@ public static class DependencyInjection
         services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<IBorrowingRepository, BorrowingRepository>();
 
+        services.AddHealthChecks()
+            .AddDbContextCheck<LibraryDbContext>(tags: ["ready"]);
+
         return services;
     }
 }
