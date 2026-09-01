@@ -1,6 +1,6 @@
 # Build results
-/src/*/bin/
-/src/*/obj/
+bin/
+obj/
 
 # IDE
 .vs/
