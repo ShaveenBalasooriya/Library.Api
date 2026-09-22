@@ -11,3 +11,6 @@ dotnet ef database update --project src/Infrastructure/Infrastructure.csproj --s
 - docker compose build api
 - docker compose up -d
 - docker compose down
+
+## Aspire Command
+- aspire run

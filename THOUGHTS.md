@@ -17,3 +17,6 @@
 - Okay so gang so past Shaveen over here: So currently in the Logging Behavior you are logging everything in the response request, but when you add authentication you will be working with passwords, so in the command handlers with sensitive details make sure to add a [property: NotLogged] next to the attribute you don't want to log. 🙏🏽
 
 - "Microsoft.EntityFrameworkCore.Database.Command": "Information" change this to Warning later.
+
+- Something pretty cool to learn about is how Aspire handles dev certs and how it creates them, because I'm pretty sure I couldn't use HTTPS when I was using with something like docker build.
+

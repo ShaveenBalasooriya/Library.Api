@@ -1,6 +1,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var db = builder.AddPostgres("postgres")
+var db = builder.AddPostgres("postgres-16")
+    .WithImageTag("16")
     .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume()
     .AddDatabase("librarydb");

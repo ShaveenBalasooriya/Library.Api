@@ -15,7 +15,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<LibraryDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("Database")));
+            options.UseNpgsql(configuration.GetConnectionString("librarydb")));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<LibraryDbContext>());
 

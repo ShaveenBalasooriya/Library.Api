@@ -1,6 +1,7 @@
 using Application;
 using Carter;
 using Infrastructure;
+using Infrastructure.Persistence;
 using Library.Api.Middleware;
 using Scalar.AspNetCore;
 using Serilog;
@@ -34,6 +35,7 @@ var app = builder.Build();
 //Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    await app.Services.ApplyMigration();
     app.MapOpenApi();
     app.MapScalarApiReference("/docs");
 }
