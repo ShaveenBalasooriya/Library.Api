@@ -20,3 +20,4 @@
 
 - Something pretty cool to learn about is how Aspire handles dev certs and how it creates them, because I'm pretty sure I couldn't use HTTPS when I was using with something like docker build.
 
+- Authentik builds a token's iss from the hostname it was reached on. The browser (Scalar) signs in via localhost:9000, so tokens say iss = http://localhost:9000/.... The API container can't reach localhost:9000 (inside a container, localhost is the container itself), so it has to use the compose service name server:9000. Setting only Authority can't satisfy both. localhost means the key fetch fails, and server means the discovery document's issuer doesn't match the token. The fix is to split the two jobs: MetadataAddress (where to fetch keys, server:9000) and ValidIssuer (which iss to accept, localhost:9000).
