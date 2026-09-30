@@ -1,6 +1,5 @@
 using Application.Members;
 using Domain.Entities;
-using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
@@ -22,9 +21,9 @@ public class MemberRepository(LibraryDbContext dbContext) : IMemberRepository
         return await dbContext.Members.FirstOrDefaultAsync(m => m.Id == id, cancellationToken);
     }
 
-    public async Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default)
+    public async Task<Member?> GetByIdentityIdAsync(string identityId, CancellationToken cancellationToken = default)
     {
-        return !await dbContext.Members.AnyAsync(m => m.Email.Value == email.Value, cancellationToken);
+        return await dbContext.Members.FirstOrDefaultAsync(m => m.IdentityId == identityId, cancellationToken);
     }
 
     public void Update(Member member)

@@ -10,6 +10,7 @@ public sealed class BorrowBookCommandValidator : AbstractValidator<BorrowBookCom
             .NotEmpty().WithMessage("Book Id is required.");
 
         RuleFor(req => req.MemberId)
-            .NotEmpty().WithMessage("Member Id is required.");
+            .NotEqual(Guid.Empty).WithMessage("Member Id cannot be empty.")
+            .When(req => req.MemberId.HasValue);
     }
 }

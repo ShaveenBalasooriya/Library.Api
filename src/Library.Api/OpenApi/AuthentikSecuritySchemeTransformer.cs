@@ -5,7 +5,7 @@ namespace Library.Api.OpenApi;
 
 internal sealed class AuthentikSecuritySchemeTransformer(IConfiguration configuration) : IOpenApiDocumentTransformer
 {
-    public static readonly string[] RequiredScopes = ["openid", "profile", "email"];
+    public static readonly string[] RequiredScopes = ["openid", "profile", "email", "offline_access"];
 
     public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
     {
