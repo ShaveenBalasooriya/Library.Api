@@ -1,3 +1,4 @@
+using Application.Abstractions.Authentication;
 using Application.Members;
 using Carter;
 using Library.Api.Extensions;
@@ -11,31 +12,39 @@ public sealed class MemberEndpoints : ICarterModule
     {
         var group = app.MapGroup("/api/members").WithTags("Members");
 
-        group.MapPost("", AddMember);
+        group.MapGet("me", GetMyProfile).RequireAuthorization(Policies.Member);
 
-        group.MapGet("{id:guid}", GetMemberById);
+        group.MapPut("me", UpdateMyProfile).RequireAuthorization(Policies.Member);
 
-        group.MapGet("", GetAllMembers);
+        group.MapGet("{id:guid}", GetMemberById).RequireAuthorization(Policies.Admin);
 
-        group.MapPut("{id:guid}", UpdateMember);
+        group.MapGet("", GetAllMembers).RequireAuthorization(Policies.Admin);
 
-        group.MapDelete("{id:guid}", RemoveMember);
+        group.MapDelete("{id:guid}", RemoveMember).RequireAuthorization();
     }
 
-    private static async Task<IResult> AddMember(
-        AddMemberRequestDto request,
+    private static async Task<IResult> GetMyProfile(
         ISender sender,
         CancellationToken cancellationToken)
     {
-        var command = new AddMemberCommand(
-            request.FullName,
-            request.Email,
-            request.PhoneNumber);
+        var query = new GetMyProfileQuery();
+        var result = await sender.Send(query, cancellationToken);
 
+        return result.IsSuccess
+            ? Results.Ok(result.Value)
+            : result.ToProblemDetails();
+    }
+
+    private static async Task<IResult> UpdateMyProfile(
+        UpdateMyProfileRequestDto request,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var command = new UpdateMyProfileCommand(request.PhoneNumber);
         var result = await sender.Send(command, cancellationToken);
 
         return result.IsSuccess
-            ? Results.Created($"/api/members/{result.Value}", result.Value)
+            ? Results.NoContent()
             : result.ToProblemDetails();
     }
 
@@ -61,24 +70,6 @@ public sealed class MemberEndpoints : ICarterModule
 
         return result.IsSuccess
             ? Results.Ok(result.Value)
-            : result.ToProblemDetails();
-    }
-
-    private static async Task<IResult> UpdateMember(
-        Guid id,
-        UpdateMemberRequestDto request,
-        ISender sender,
-        CancellationToken cancellationToken)
-    {
-        var command = new UpdateMemberCommand(
-            id,
-            request.FullName,
-            request.PhoneNumber);
-
-        var result = await sender.Send(command, cancellationToken);
-
-        return result.IsSuccess
-            ? Results.NoContent()
             : result.ToProblemDetails();
     }
 

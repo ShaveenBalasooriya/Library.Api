@@ -14,8 +14,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        // "librarydb" matches the Aspire resource name, so Aspire, Docker and local config all resolve the same key.
+        var connectionString = configuration.GetConnectionString("librarydb")
+            ?? throw new InvalidOperationException("Connection string 'librarydb' is not configured.");
+
         services.AddDbContext<LibraryDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("librarydb")));
+            options.UseNpgsql(connectionString));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<LibraryDbContext>());
 

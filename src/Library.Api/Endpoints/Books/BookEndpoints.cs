@@ -1,3 +1,4 @@
+using Application.Abstractions.Authentication;
 using Application.Books;
 using Carter;
 using Library.Api.Extensions;
@@ -11,15 +12,15 @@ public sealed class BookEndpoints : ICarterModule
     {
         var group = app.MapGroup("/api/books").WithTags("Books");
 
-        group.MapPost("", AddBook);
+        group.MapPost("", AddBook).RequireAuthorization(Policies.Admin);
 
-        group.MapGet("{id:guid}", GetBookById);
+        group.MapGet("{id:guid}", GetBookById).RequireAuthorization();
 
-        group.MapGet("", GetAllBooks);
+        group.MapGet("", GetAllBooks).RequireAuthorization();
 
-        group.MapPut("{id:guid}", UpdateBook);
+        group.MapPut("{id:guid}", UpdateBook).RequireAuthorization(Policies.Admin);
 
-        group.MapDelete("{id:guid}", RemoveBook);
+        group.MapDelete("{id:guid}", RemoveBook).RequireAuthorization(Policies.Admin);
     }
 
     private static async Task<IResult> AddBook(

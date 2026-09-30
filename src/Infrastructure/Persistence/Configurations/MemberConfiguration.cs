@@ -12,6 +12,15 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
 
         builder.HasKey(m => m.Id);
 
+        builder.Property(m => m.IdentityId)
+            .HasColumnName("identity_id")
+            .IsRequired()
+            .HasMaxLength(255);
+
+        builder.HasIndex(m => m.IdentityId).IsUnique();
+
+        builder.Ignore(m => m.IsProfileComplete);
+
         builder.ComplexProperty(m => m.Email, emailBuilder =>
         {
             emailBuilder.Property(e => e.Value)

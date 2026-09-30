@@ -1,3 +1,4 @@
+using Application.Abstractions.Authentication;
 using Application.Borrowings;
 using Carter;
 using Library.Api.Extensions;
@@ -11,13 +12,15 @@ public sealed class BorrowingEndpoints : ICarterModule
     {
         var group = app.MapGroup("/api/borrowings").WithTags("Borrowings");
 
-        group.MapPost("", BorrowBook);
+        group.MapPost("", BorrowBook).RequireAuthorization();
 
-        group.MapPost("{id:guid}/return", ReturnBook);
+        group.MapPost("{id:guid}/return", ReturnBook).RequireAuthorization(Policies.Member);
 
-        group.MapGet("", GetAllBorrowings);
+        group.MapGet("", GetAllBorrowings).RequireAuthorization(Policies.Admin);
 
-        group.MapGet("member/{memberId:guid}", GetMemberBorrowings);
+        group.MapGet("me", GetMyBorrowings).RequireAuthorization(Policies.Member);
+
+        group.MapGet("member/{memberId:guid}", GetMemberBorrowings).RequireAuthorization(Policies.Admin);
 
         group.MapPost("mark-overdue", MarkOverdueBorrowings);
     }
@@ -54,6 +57,18 @@ public sealed class BorrowingEndpoints : ICarterModule
         CancellationToken cancellationToken)
     {
         var query = new GetAllBorrowingsQuery();
+        var result = await sender.Send(query, cancellationToken);
+
+        return result.IsSuccess
+            ? Results.Ok(result.Value)
+            : result.ToProblemDetails();
+    }
+
+    private static async Task<IResult> GetMyBorrowings(
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetMyBorrowingsQuery();
         var result = await sender.Send(query, cancellationToken);
 
         return result.IsSuccess

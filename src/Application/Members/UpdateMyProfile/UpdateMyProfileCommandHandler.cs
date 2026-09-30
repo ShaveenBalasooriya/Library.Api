@@ -1,28 +1,32 @@
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
-using Domain.Enums;
 using Domain.Shared;
 using Domain.ValueObjects;
 
 namespace Application.Members
 {
-    internal sealed class UpdateMemberCommandHandler : ICommandHandler<UpdateMemberCommand>
+    internal sealed class UpdateMyProfileCommandHandler : ICommandHandler<UpdateMyProfileCommand>
     {
+        private readonly ICurrentMemberProvider _currentMemberProvider;
         private readonly IMemberRepository _memberRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateMemberCommandHandler(IMemberRepository memberRepository, IUnitOfWork unitOfWork)
+        public UpdateMyProfileCommandHandler(
+            ICurrentMemberProvider currentMemberProvider,
+            IMemberRepository memberRepository,
+            IUnitOfWork unitOfWork)
         {
+            _currentMemberProvider = currentMemberProvider;
             _memberRepository = memberRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(UpdateMemberCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateMyProfileCommand request, CancellationToken cancellationToken)
         {
-            var member = await _memberRepository.GetByIdAsync(request.Id, cancellationToken);
-            if (member is null)
+            var memberResult = await _currentMemberProvider.GetOrCreateCurrentMemberAsync(cancellationToken);
+            if (memberResult.IsFailure)
             {
-                return Result.Failure(new Error("Member.NotFound", $"Member with ID '{request.Id}' was not found.", ErrorType.NotFound));
+                return Result.Failure(memberResult.Error);
             }
 
             PhoneNumber? phoneNumber = null;
@@ -37,7 +41,8 @@ namespace Application.Members
                 phoneNumber = phoneNumberResult.Value;
             }
 
-            var updateResult = member.Update(request.FullName, phoneNumber);
+            var member = memberResult.Value;
+            var updateResult = member.UpdateProfile(phoneNumber);
             if (updateResult.IsFailure)
             {
                 return Result.Failure(updateResult.Error);
